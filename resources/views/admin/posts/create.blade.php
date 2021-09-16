@@ -48,7 +48,11 @@
      <div>
        <h4>Tag</h4>
        @foreach($tags as $key => $tag)
-          <input id="tag{{$key}}" type="checkbox" value="{{$tag->id}}" name="tags[]">
+          <input id="tag{{$key}}" type="checkbox" value="{{$tag->id}}" 
+            @if(in_array($tag->id, old('tags', [])))
+                checked
+            @endif
+          name="tags[]">
           <label for="tag{{$key}}">{{$tag->name}}</label>
        @endforeach
      </div>
