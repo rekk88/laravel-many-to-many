@@ -25,7 +25,7 @@
         <option value="">--Seleziona una categoria--</option>
         @foreach ($categories as $category)
           <option value="{{$category->id}}"
-            @if ($category->id == old('category_id',$post->category_id))
+            @if (old('category_id') == $category->id)
               selected
             @endif
             >{{$category->name}}</option>
@@ -45,7 +45,13 @@
       <div class="alert alert-danger">{{$message}}</div>
       @enderror
      </div>
-     
+     <div>
+       <h4>Tag</h4>
+       @foreach($tags as $key => $tag)
+          <input id="tag{{$key}}" type="checkbox" value="{{$tag->id}}" name="tags[]">
+          <label for="tag{{$key}}">{{$tag->name}}</label>
+       @endforeach
+     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>

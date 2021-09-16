@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str; //per far funzionare lo slug
 use App\Post; //importo il model di post
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -29,7 +30,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create',compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create',compact('categories','tags'));
     }
 
     /**
@@ -70,6 +72,12 @@ class PostController extends Controller
         $newPost->fill($data);
         //salvo nel db
         $newPost->save();
+        
+        if (array_key_exists('tags',$data)) { // se in data c'è un array tags  
+          $newPost->tags()->attach($data['tags']);
+        }
+
+
 
         return redirect()->route('admin.posts.index');
     }
@@ -144,6 +152,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
+        $post->tags()->detach();
         return redirect()->route('admin.posts.index');
     }
 }
