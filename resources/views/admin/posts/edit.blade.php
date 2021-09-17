@@ -41,8 +41,11 @@
         <div>
           <h4>Tag</h4>
           @foreach($tags as $key => $tag)
-             <input id="tag{{$key}}" type="checkbox" value="{{$tag->id}}" 
-               @if(in_array($tag->id, old('tags', [])))
+             <input id="tag{{$key}}" type="checkbox" value="{{$tag->id}}"
+              {{-- se non ci sono erroi E il tag dentro post è presente nella tabella tag  --}}
+               @if(!$errors->any() && $post->tags->contains($tag->id))
+                checked
+               @elseif(in_array($tag->id, old('tags', [])))
                    checked
                @endif
              name="tags[]">
